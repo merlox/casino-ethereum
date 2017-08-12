@@ -5,7 +5,8 @@ contract Casino {
    uint public minimumBet = 100 finney; // Equal to 0.1 ether
    uint public totalBet;
    uint public numberOfBets;
-   uint public maxAmountOfBets = 100;
+   uint public maxAmountOfBets = 2;
+   uint public numberWinner;
    address[] public players;
 
    struct Player {
@@ -15,9 +16,10 @@ contract Casino {
 
    mapping(address => Player) playerInfo;
 
-   function Casino(uint _minimumBet){
+   function Casino(uint _minimumBet, uint _maxAmountOfBets){
       owner = msg.sender;
       if(_minimumBet != 0) minimumBet = _minimumBet;
+      if(_maxAmountOfBets != 0) maxAmountOfBets = _maxAmountOfBets;
    }
 
    // Fallback function in case someone sends ether to the contract so it doesn't get lost
@@ -25,7 +27,7 @@ contract Casino {
 
    function kill(){
       if(msg.sender == owner)
-         selfdestruct(owner);
+      selfdestruct(owner);
    }
 
    function checkPlayerExists(address player) returns(bool){
@@ -53,27 +55,37 @@ contract Casino {
 
    // Generates a number between 1 and 10
    function generateNumberWinner(){
-      uint numberGenerated = block.number % 10 + 1; // This isn't secure
-      distributePrizes(numberGenerated);
+      numberWinner = block.number % 10 + 1; // This isn't secure
+      distributePrizes();
    }
 
-   function distributePrizes(uint numberWinner){
-      address[] winners;
+   // Sends the corresponding ether to each winner depending on the total bets
+   function distributePrizes(){
+      address[100] memory winners; // We have to create a temporary in memory array with fixed size
+      uint count = 0; // This is the count for the array of winners
 
       for(uint i = 0; i < players.length; i++){
          address playerAddress = players[i];
          if(playerInfo[playerAddress].numberSelected == numberWinner){
-            winners.push(playerAddress);
+            winners[count] = playerAddress;
+            count++;
          }
          delete playerInfo[playerAddress]; // Delete all the players
       }
 
-      players.length = 0; // Delete all the players array
-
       uint winnerEtherAmount = totalBet / winners.length; // How much each winner gets
 
-      for(uint j = 0; j < winners.length; j++){
+      for(uint j = 0; j < count; j++){
+         if(winners[j] != address(0)) // Check that the address in this fixed array is not empty
          winners[j].transfer(winnerEtherAmount);
       }
+
+      resetData();
+   }
+
+   function resetData(){
+      players.length = 0; // Delete all the players array
+      totalBet = 0;
+      numberOfBets = 0;
    }
 }
