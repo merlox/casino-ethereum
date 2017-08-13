@@ -154,8 +154,9 @@ class App extends React.Component {
 
             <hr/>
 
+            <div><i><b>Only working with the Ropsten Test Network</b></i></div>
             <div><i>You can only vote once per account</i></div>
-            <div><i>You vote will be reflected when the next block is mined</i></div>
+            <div><i>Your vote will be reflected when the next block is mined</i></div>
          </div>
       )
    }

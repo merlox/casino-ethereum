@@ -19698,6 +19698,19 @@ var App = function (_React$Component) {
                _react2.default.createElement(
                   'i',
                   null,
+                  _react2.default.createElement(
+                     'b',
+                     null,
+                     'Only working with the Ropsten Test Network'
+                  )
+               )
+            ),
+            _react2.default.createElement(
+               'div',
+               null,
+               _react2.default.createElement(
+                  'i',
+                  null,
                   'You can only vote once per account'
                )
             ),
@@ -19707,7 +19720,7 @@ var App = function (_React$Component) {
                _react2.default.createElement(
                   'i',
                   null,
-                  'You vote will be reflected when the next block is mined'
+                  'Your vote will be reflected when the next block is mined'
                )
             )
          );
