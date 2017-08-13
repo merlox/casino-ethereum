@@ -1,0 +1,55 @@
+body{
+    font-family: 'open sans';
+    margin: 0;
+}
+ul{
+    list-style-type: none;
+    padding-left: 0;
+    display: flex;
+    justify-content: space-around;
+    max-width: 1300px;
+}
+li{
+    padding: 40px;
+    border: 2px solid rgb(30,134,255);
+    margin-right: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+li:hover{
+    background-color: rgb(30,134,255);
+    color: white;
+}
+li:active{
+    opacity: 0.7;
+}
+*{
+   color: #444444;
+}
+.main-container{
+   padding: 20px;
+}
+.block{
+   display: flex;
+   align-items: center;
+}
+.number-selected{
+   background-color: rgb(30,134,255);
+   color: white;
+}
+.bet-input{
+   padding: 15px;
+   border-radius: 10px;
+   border: 1px solid lightgrey;
+   font-size: 15pt;
+   margin: 0 10px;
+}
+
+@media (max-width: 1100px){
+   ul{
+      flex-direction: column;
+   }
+   li{
+      margin: 5px 0;
+   }
+}

@@ -5,7 +5,7 @@ contract Casino {
    uint public minimumBet = 100 finney; // Equal to 0.1 ether
    uint public totalBet;
    uint public numberOfBets;
-   uint public maxAmountOfBets = 2;
+   uint public maxAmountOfBets = 100;
    uint public numberWinner;
    address[] public players;
 
