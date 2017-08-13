@@ -19615,8 +19615,7 @@ var App = function (_React$Component) {
                _react2.default.createElement(
                   'span',
                   null,
-                  this.state.maxAmountOfBets,
-                  ' ether'
+                  this.state.maxAmountOfBets
                )
             ),
             _react2.default.createElement('hr', null),
