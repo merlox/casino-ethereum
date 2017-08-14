@@ -1,6 +1,8 @@
 pragma solidity ^0.4.11;
 
-contract Casino {
+import "github.com/oraclize/ethereum-api/oraclizeAPI.sol";
+
+contract Casino is usingOraclize {
    address owner;
    uint public minimumBet = 100 finney; // Equal to 0.1 ether
    uint public totalBet;
@@ -20,6 +22,8 @@ contract Casino {
       owner = msg.sender;
       if(_minimumBet != 0) minimumBet = _minimumBet;
       if(_maxAmountOfBets != 0) maxAmountOfBets = _maxAmountOfBets;
+
+      oraclize_setProof(proofType_Ledger);
    }
 
    // Fallback function in case someone sends ether to the contract so it doesn't get lost
@@ -54,8 +58,17 @@ contract Casino {
    }
 
    // Generates a number between 1 and 10
-   function generateNumberWinner(){
-      numberWinner = block.number % 10 + 1; // This isn't secure
+   function generateNumberWinner() payable {
+      uint numberRandomBytes = 7;
+      uint delay = 0;
+      uint callbackGas = 200000;
+      bytes32 queryId = oraclize_newRandomDSQuery(delay, numberRandomBytes, callbackGas);
+   }
+
+   // Get's called by Oraclize when the random number is generated to distributePrizes
+   function __callback(bytes32 _queryId, string _result, bytes _proof) oraclize_randomDS_proofVerify(_queryId, _result, _proof){
+      assert(msg.sender == oraclize_cbAddress());
+      numberWinner = (uint(sha3(_result))%10+1);
       distributePrizes();
    }
 
