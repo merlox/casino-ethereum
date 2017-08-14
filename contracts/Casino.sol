@@ -7,7 +7,7 @@ contract Casino is usingOraclize {
    uint public minimumBet = 100 finney; // Equal to 0.1 ether
    uint public totalBet;
    uint public numberOfBets;
-   uint public maxAmountOfBets = 100;
+   uint public maxAmountOfBets = 10;
    uint public numberWinner;
    address[] public players;
 
@@ -18,9 +18,8 @@ contract Casino is usingOraclize {
 
    mapping(address => Player) playerInfo;
 
-   function Casino(uint _minimumBet, uint _maxAmountOfBets){
+   function Casino(uint _maxAmountOfBets){
       owner = msg.sender;
-      if(_minimumBet != 0) minimumBet = _minimumBet;
       if(_maxAmountOfBets != 0) maxAmountOfBets = _maxAmountOfBets;
 
       oraclize_setProof(proofType_Ledger);
@@ -94,6 +93,18 @@ contract Casino is usingOraclize {
       }
 
       resetData();
+   }
+
+   function updateMaxBets(uint bets){
+      assert(msg.sender == owner);
+      assert(bets > 0);
+      maxAmountOfBets = bets;
+   }
+
+   function updateMinimumBet(uint amountWei){
+      assert(msg.sender == owner);
+      assert(amountWei > 0);
+      minimumBet = amountWei;
    }
 
    function resetData(){
