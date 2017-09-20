@@ -57,7 +57,7 @@ contract Casino is usingOraclize {
    /// @notice Check if a player exists in the current game
    /// @param player The address of the player to check
    /// @return bool Returns true is it exists or false if it doesn't
-   function checkPlayerExists(address player) returns(bool){
+   function checkPlayerExists(address player) returns(bool) {
       if(playerBetsNumber[player] > 0)
          return true;
       else
@@ -66,7 +66,7 @@ contract Casino is usingOraclize {
 
    /// @notice To bet for a number by sending Ether
    /// @param numberToBet The number that the player wants to bet for. Must be between 1 and 10 both inclusive
-   function bet(uint numberToBet) payable{
+   function bet(uint numberToBet) payable {
 
       // Check that the max amount of bets hasn't been met yet
       assert(numberOfBets < maxAmountOfBets);
